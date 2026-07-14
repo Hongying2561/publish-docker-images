@@ -9,18 +9,22 @@ permissions:
   contents: read
   packages: write
 
+env:
+  IMAGE_NAME: ghcr.io/${{ github.repository }}:main
+
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
       - name: Log in to the Container registry
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build and push Docker image
         run: |
-          docker build . --tag ghcr.io/<GITHUB_USERNAME>/publish-docker-images/stackoverflown:main
-          docker push ghcr.io/<GITHUB_USERNAME>/publish-docker-images/stackoverflown:main
+          image_name="${IMAGE_NAME,,}"
+          docker build . --tag "$image_name"
+          docker push "$image_name"

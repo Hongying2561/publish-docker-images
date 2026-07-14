@@ -2,11 +2,6 @@ name: Step 2
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
-    paths:
-      - ".github/workflows/docker-publish.yml"
 
 permissions:
   contents: read
